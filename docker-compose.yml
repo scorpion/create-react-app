@@ -1,0 +1,62 @@
+version: "3.8"
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+services:
+  ### Traefik ################################
+  traefik:
+    build:
+      context: ./docker/traefik
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    networks:
+      - backend
+      - frontend
+    labels:
+      - traefik.entryPoints.web.forwardedHeaders.trustedIPs=172.18.0.0/16
+
+  ### NGINX ##################################
+  nginx:
+    build:
+      context: ./docker/nginx
+    restart: always
+    volumes:
+      - "./:/app"
+    networks:
+      - backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.web.priority=1"
+      - "traefik.docker.network=backend"
+
+  ### Postgres ###############################
+
+  ### node ##############################
+  node:
+    build:
+      context: ./docker/node
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - frontend
+      - backend
+    volumes:
+      - "./:/app"
+    depends_on:
+      - nginx
+    labels:
+      - traefik.backend=backend
+      - traefik.enable=true
+      - traefik.docker.network=backend
+    command: "yarn start"
