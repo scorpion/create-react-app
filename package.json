@@ -1,39 +1,22 @@
 {
   "name": "root",
-  "scripts": {
-    "start:ui": "yarn workspace @app/ui start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
   "private": true,
-  "workspaces": [
-    "app/ui"
-  ],
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+  "scripts": {
+    "start": "yarn workspace ui start"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "version": "0.1.0",
+  "description": "Create React App Template",
+  "main": "index.js",
+  "repository": "https://github.com/scorpion/create-react-app",
+  "author": "Brett Wilcox <brett@scorpion.io> (https://scorpion.io)",
+  "license": "Apache-2.0",
   "devDependencies": {
-    "lerna": "^3.22.1"
-  }
+    "@yarnpkg/pnpify": "2.3.3",
+    "lerna": "^3.22.1",
+    "prettier": "2.1.2",
+    "typescript": "4.0.3"
+  },
+  "workspaces": [
+    "app/*"
+  ]
 }
